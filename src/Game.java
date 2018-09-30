@@ -19,5 +19,11 @@ public class Game {
 		String nom = sc.nextLine();
 		System.out.println("Bonjour " + nom + "! Prêt pour l'aventure? Alors c'est parti!");
 		
+		Heros heros = new Heros(nom, 100, 50);
+		
+		Chateau chateau = new Chateau();
+		
+		System.out.println(chateau.getPieces());
+		
 	}
 }
