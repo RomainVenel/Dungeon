@@ -4,14 +4,26 @@ import java.util.Scanner;
 
 public class Chateau {
 
+	private Heros heros;
 	private Scanner sc = new Scanner(System.in);
 	private ArrayList<Piece> pieces = new ArrayList<Piece>();
 	Random r = new Random();
 	
 	public Chateau() {
 		
+		askName();
 		this.generateChateau();
 		this.play();
+		
+	}
+	
+	private void askName() {
+		
+		System.out.println("\nMais en fait quel est ton nom d'aventurier?");
+		String nom = sc.nextLine();
+		System.out.println("Bonjour " + nom + "! Prêt pour l'aventure? Alors c'est parti!");
+		
+		this.heros = new Heros(nom, 100, 50);
 		
 	}
 	
@@ -48,7 +60,7 @@ public class Chateau {
 	
 	private Monstre generateMonstre() {
 		
-		String name, nameMonstre;
+		String nameMonstre;
 		int nb = 0;
 
 		nb = r.nextInt(6);
@@ -71,7 +83,7 @@ public class Chateau {
 		
 		if(randomSalle == 1 || randomSalle == 2) {
 			Monstre monstre = this.generateMonstre();
-			SalleMonstre salleMonstre = new SalleMonstre(null, monstre);
+			SalleMonstre salleMonstre = new SalleMonstre(null, monstre, this.getHeros());
 			name = salleMonstre.getListName().get(nb);
 			salleMonstre.setName(name);
 			this.pieces.add(salleMonstre);
@@ -92,19 +104,34 @@ public class Chateau {
 			if(piece instanceof SalleMonstre) {
 				System.out.print("Vous arrivez dans " + piece.getName());
 				System.out.print(" et vous faites face à " + ((SalleMonstre) piece).getMonstre().getName() + "!");
+				((SalleMonstre) piece).combat();
 			}else {
 				System.out.print("Vous arrivez dans " + piece.getName() + "!");
 			}
+			
+			if (this.heros.getLifePoints() <= 0) {
+				System.out.println("Les ténèbres vous entourent et vous sombrez dans le sommeil éternel...");
+				break;
+			}
+			
 			System.out.println("\nVoulez-vous continuer?(O/N)");
 			String rep = sc.nextLine();
-			if (rep.equals("O") || rep.equals("o")) {
-				continue;
-			}else {
+			if (!(rep.equals("O") || rep.equals("o"))) {
 				System.out.println("Vous quittez prématurément le donjon...");
 				break;
 			}
 		}
-		
+		if (this.heros.getLifePoints() > 0) {
+			System.out.println("Bravo ! Vous avez réussi à arriver au bout du donjon ! Vous êtes le véritable héros !");
+		}
+	}
+
+	public Heros getHeros() {
+		return heros;
+	}
+
+	public void setHeros(Heros heros) {
+		this.heros = heros;
 	}
 
 	public ArrayList<Piece> getPieces() {

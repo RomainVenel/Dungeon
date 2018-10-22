@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Monstre extends Personnage{
 	
@@ -24,6 +25,17 @@ public class Monstre extends Personnage{
 			this.listName.add(name4);
 			this.listName.add(name5);
 			this.listName.add(name6);
+		
+	}
+	
+	protected int hitEnnemy(Heros heros) {
+		
+		int dmg = 5 + (int)(Math.random() * ((25 - 5) + 1));
+		heros.setLifePoints(heros.getLifePoints() - dmg);
+		System.out.println("Le monstre vous inflige " +  dmg + " de dommages.");
+		System.out.println("Il vous reste " + heros.getLifePoints() + " points de vie.");
+		
+		return heros.getLifePoints();
 		
 	}
 	
