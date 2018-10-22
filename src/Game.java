@@ -23,7 +23,7 @@ public class Game {
 		
 		Chateau chateau = new Chateau();
 		
-		System.out.println(chateau.getPieces());
+		//System.out.println(chateau.getPieces());
 		
 	}
 }

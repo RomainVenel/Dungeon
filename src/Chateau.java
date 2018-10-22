@@ -1,14 +1,17 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Chateau {
 
+	private Scanner sc = new Scanner(System.in);
 	private ArrayList<Piece> pieces = new ArrayList<Piece>();
 	Random r = new Random();
 	
 	public Chateau() {
 		
-		generateChateau();
+		this.generateChateau();
+		this.play();
 		
 	}
 	
@@ -43,16 +46,64 @@ public class Chateau {
 		
 	}
 	
+	private Monstre generateMonstre() {
+		
+		String name, nameMonstre;
+		int nb = 0;
+
+		nb = r.nextInt(6);
+		Monstre monstre = new Monstre(null, 100);
+		nameMonstre = monstre.getListName().get(nb);
+		monstre.setName(nameMonstre);
+		
+		return monstre;
+		
+	}
+	
 	private void generateSalle() {
 		
 		String name;
 		int nb = 0;
+		int randomSalle = 0;
 		
-		Salle salle = new Salle(null);
+		randomSalle = r.nextInt(3);
 		nb = r.nextInt(6);
-		name = salle.getListName().get(nb);
-		salle.setName(name);
-		this.pieces.add(salle);
+		
+		if(randomSalle == 1 || randomSalle == 2) {
+			Monstre monstre = this.generateMonstre();
+			SalleMonstre salleMonstre = new SalleMonstre(null, monstre);
+			name = salleMonstre.getListName().get(nb);
+			salleMonstre.setName(name);
+			this.pieces.add(salleMonstre);
+		}else {	
+			Salle salle = new Salle(null);
+			nb = r.nextInt(6);
+			name = salle.getListName().get(nb);
+			salle.setName(name);
+			this.pieces.add(salle);
+		}
+		
+	}
+	
+	private void play() {
+		
+		System.out.println("Vous ouvrez la prochaine porte et ");
+		for (Piece piece : pieces) {
+			if(piece instanceof SalleMonstre) {
+				System.out.print("Vous arrivez dans " + piece.getName());
+				System.out.print(" et vous faites face à " + ((SalleMonstre) piece).getMonstre().getName() + "!");
+			}else {
+				System.out.print("Vous arrivez dans " + piece.getName() + "!");
+			}
+			System.out.println("\nVoulez-vous continuer?(O/N)");
+			String rep = sc.nextLine();
+			if (rep.equals("O") || rep.equals("o")) {
+				continue;
+			}else {
+				System.out.println("Vous quittez prématurément le donjon...");
+				break;
+			}
+		}
 		
 	}
 
