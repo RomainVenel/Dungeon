@@ -7,6 +7,7 @@ public class Chateau {
 	private Heros heros;
 	private Scanner sc = new Scanner(System.in);
 	private ArrayList<Piece> pieces = new ArrayList<Piece>();
+	private boolean leave = false;
 	Random r = new Random();
 	
 	public Chateau() {
@@ -118,10 +119,11 @@ public class Chateau {
 			String rep = sc.nextLine();
 			if (!(rep.equals("O") || rep.equals("o"))) {
 				System.out.println("Vous quittez prématurément le donjon...");
+				this.leave = true;
 				break;
 			}
 		}
-		if (this.heros.getLifePoints() > 0) {
+		if (this.heros.getLifePoints() > 0 && this.leave == false) {
 			System.out.println("Bravo ! Vous avez réussi à arriver au bout du donjon ! Vous êtes le véritable héros !");
 		}
 	}
